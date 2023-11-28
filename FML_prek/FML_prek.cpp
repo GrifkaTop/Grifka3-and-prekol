@@ -16,7 +16,7 @@ void circle_random() {
     sf::RenderWindow window(sf::VideoMode(r * 2, r * 2), "SFML works!");
     sf::CircleShape shape(r);
     shape.setFillColor(sf::Color::Black);
-    shape.setOutlineThickness(10.f);
+    shape.setOutlineThickness(1.f);
     shape.setOutlineColor(sf::Color(250, 150, 100));
     shape.setPosition(r, r);
     while (window.isOpen())
@@ -213,8 +213,8 @@ void true_star_rand() {
 void true_spiral_rand() {
     int n = 1000;
     float Gosling = 0.1 * 2 * M_PI / 360.0;
-    int k = 5;
-    int r = 10;
+    int k = 3;
+    int r = 0;
     int fitness = 1;
     sf::RenderWindow window(sf::VideoMode(n, n), "SFML works!");
     int f = 1;
@@ -238,7 +238,7 @@ void true_spiral_rand() {
                 float g = i + Gosling;
                 float x = (r + v_r) * cos(g) + n / 2;
                 float y = (r + v_r) * sin(g) + n / 2;
-                CircleShape sh(1);
+                CircleShape sh(3);
                 sh.setPosition(x, y);
                 p.push_back(sh);
                 a++;
@@ -498,9 +498,158 @@ void doom() {
         Sleep(50);
     }
 }
+void spin_rand() {
+    int n = 1000;
+    float Gosling = 0.1 * 2 * M_PI / 360.0;
+    int k = 8;
+    int r = 350;
+    int fitness = 1;
+    sf::RenderWindow window(sf::VideoMode(n, n), "SFML works!");
+    int f = 1;
+    while (window.isOpen())
+    {
+        Gosling += 0.01;
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        window.clear();
+        vector<Vector2f> p(k);
+        int a = 0;
+        for (float i = 0; i < 2 * M_PI && a < k; i += 2 * M_PI / k) {
+            float g = i + Gosling;
+            float x = r * cos(g);
+            float y = r * sin(g);
+            p[a].x = x;
+            p[a].y = y;
+            a++;
+        }
+        vector<VertexArray> line(k);
+        for (int i = 0; i < k; i++) {
+            VertexArray l(LineStrip, 3);
+            l[0] = Vector2f(n/2, n/2);
+            l[1] = Vector2f(p[i].x + n/2, p[i].y + n/2);
+            l[2] = Vector2f(-p[i].y+p[i].x + n/2, p[i].y+p[i].x+n/2);
+            line[i] = l;
+        }
+        for (auto i : line) {
+            window.draw(i);
+        }
+        window.display();
+        Sleep(20);
+    }
+}
+void GrishaNov_fraktal() {
+    //настрофка размера экрана
+    int n = 1e7;
+    float l = 50;
+    int n_w = 1000, m_w = 1000;
+    sf::RenderWindow window(sf::VideoMode(n_w, m_w), "Krivay Drakona");
+    vector<Vector2f> p_vec(n);
+    p_vec[0] = Vector2f(n_w/2 , m_w/2);
+    p_vec[1] = Vector2f(n_w/2, -l + m_w/2);
+    int a = 2;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        for (int i = 0; i < a - 1; i++) {
+            float x1 = p_vec[i].x, y1 = p_vec[i].y, x2 = p_vec[a-1].x, y2 = p_vec[a-1].y;
+            cerr << x1 << ' ' << y1 << ' ' << x2 << ' ' << y2 << '\n';
+            p_vec[a + i] = Vector2f(-y1 + y2 + x2, x1 - x2 + y2);
+        }
+        window.clear();
+        a *= 2;
+        a--;
+        VertexArray p(LineStrip, a);
+        for (int i = 0; i < a; i++) {
+            p[i] = p_vec[i];
+        }
+        window.draw(p);
+        window.display();
+        Sleep(500);
+    }
+}
+void GrishaTop_fraktal() {
+    //настрофка размера экрана
+    int n = 1e7;
+    float l = 50;
+    int n_w = 1000, m_w = 1000;
+    sf::RenderWindow window(sf::VideoMode(n_w, m_w), "Krivay Drakona");
+    vector<Vector2f> p_vec(n);
+    p_vec[0] = Vector2f(n_w / 2, m_w / 2);
+    p_vec[1] = Vector2f(n_w / 2, -l + m_w / 2);
+    int a = 2;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        for (int i = 0; i < a - 1; i++) {
+            float x1 = p_vec[i].x, y1 = p_vec[i].y, x2 = p_vec[a/2-1].x, y2 = p_vec[a/2-1].y;
+            cerr << x1 << ' ' << y1 << ' ' << x2 << ' ' << y2 << '\n';
+            p_vec[a + i] = Vector2f(-y1 + y2 + x2, x1 - x2 + y2);
+        }
+        window.clear();
+        a *= 2;
+        a--;
+        VertexArray p(LineStrip, a);
+        for (int i = 0; i < a; i++) {
+            p[i] = p_vec[i];
+        }
+        window.draw(p);
+        window.display();
+        Sleep(500);
+    }
+}
+void krivay_drakona() {
+    //настрофка размера экрана
+    int n = 1e7;
+    float l = 0.2;
+    int n_w = 1000, m_w = 1000;
+    sf::RenderWindow window(sf::VideoMode(n_w, m_w), "Krivay Drakona");
+    vector<Vector2f> p_vec(n);
+    p_vec[0] = Vector2f(0, 0);
+    p_vec[1] = Vector2f(0, l);
+    int a = 2;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        if (a * 2 <= n) {
+
+
+            for (int i = a - 2; i >= 0; i--) {
+                float x1 = p_vec[i].x, y1 = p_vec[i].y, x2 = p_vec[a - 1].x, y2 = p_vec[a - 1].y;
+                //cerr << x1 << ' ' << y1 << ' ' << x2 << ' ' << y2 << '\t' << -y1 + y2 + x2 << ' ' << x1 - x2 + y2 << '\n';
+                p_vec[a + i] = Vector2f(x2 - y1, y2 + x1);
+            }
+            window.clear();
+            a *= 2;
+            a--;
+            VertexArray p(LineStrip, a);
+            for (int i = 0; i < a; i++) {
+                p[i] = Vector2f(p_vec[i].x + n_w / 2, p_vec[i].y + m_w / 2);
+            }
+            window.draw(p);
+            window.display();
+            Sleep(1000);
+        }
+    }
+}
 int main()
 {
-    true_vilka_rand();
+    krivay_drakona();
     //circle_Black_White();
     //circle_random();
     /*
