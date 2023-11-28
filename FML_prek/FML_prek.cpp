@@ -75,6 +75,11 @@ void circle_Black_White() {
     }
 }
 
+sf::Vector2f getPoint90(sf::Vector2f a, sf::Vector2f b) {
+    sf::Vector2f t = b - a;
+    t = { -t.y, t.x };
+    return a + t;
+}
 Vector2f vc(Vector2f b, Vector2f a) {
     return Vector2f(a.x - b.x, a.y - b.y);
 }
@@ -609,15 +614,15 @@ void GrishaTop_fraktal() {
         Sleep(500);
     }
 }
-void krivay_drakona() {
+void krivay_Grifki() {
     //настрофка размера экрана
     int n = 1e7;
-    float l = 0.2;
+    float l = 50;
     int n_w = 1000, m_w = 1000;
     sf::RenderWindow window(sf::VideoMode(n_w, m_w), "Krivay Drakona");
     vector<Vector2f> p_vec(n);
     p_vec[0] = Vector2f(0, 0);
-    p_vec[1] = Vector2f(0, l);
+    p_vec[1] = Vector2f(l, 0);
     int a = 2;
     while (window.isOpen()) {
         sf::Event event;
@@ -628,11 +633,12 @@ void krivay_drakona() {
         }
         if (a * 2 <= n) {
 
-
-            for (int i = a - 2; i >= 0; i--) {
-                float x1 = p_vec[i].x, y1 = p_vec[i].y, x2 = p_vec[a - 1].x, y2 = p_vec[a - 1].y;
+            float x2 = p_vec[a - 1].x, y2 = p_vec[a - 1].y;
+            for (int i = 0; i < a-1; i++) {
+                float x1 = p_vec[i].x, y1 = p_vec[i].y;
                 //cerr << x1 << ' ' << y1 << ' ' << x2 << ' ' << y2 << '\t' << -y1 + y2 + x2 << ' ' << x1 - x2 + y2 << '\n';
                 p_vec[a + i] = Vector2f(x2 - y1, y2 + x1);
+                //p_vec[a + i] = Vector2f( - y1 + x2, x1+y2);
             }
             window.clear();
             a *= 2;
@@ -644,6 +650,40 @@ void krivay_drakona() {
             window.draw(p);
             window.display();
             Sleep(1000);
+        }
+    }
+}
+void krivay_drakona() {
+    //настрофка размера экрана
+    int n = 1e7;
+    float l = 0.5;
+    int n_w = 1000, m_w = 1000;
+    sf::RenderWindow window(sf::VideoMode(n_w, m_w), "Krivay Drakona");
+    vector<Vector2f> p_vec(n);
+    p_vec[0] = Vector2f(n_w/2, m_w/2);
+    p_vec[1] = Vector2f(l+n_w/2, m_w/2);
+    int a = 2;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        if (a * 2 <= n) {
+            for (int i = 0; i < a - 1; i++) {
+                p_vec[a + i] = getPoint90(p_vec[a-1], p_vec[a-2-i]);
+            }
+            window.clear();
+            a *= 2;
+            a--;
+            VertexArray p(LineStrip, a);
+            for (int i = 0; i < a; i++) {
+                p[i] = p_vec[i];
+            }
+            window.draw(p);
+            window.display();
+            Sleep(500);
         }
     }
 }
