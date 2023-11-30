@@ -74,7 +74,6 @@ void circle_Black_White() {
         window.display();
     }
 }
-
 sf::Vector2f getPoint90(sf::Vector2f a, sf::Vector2f b) {
     sf::Vector2f t = b - a;
     t = { -t.y, t.x };
