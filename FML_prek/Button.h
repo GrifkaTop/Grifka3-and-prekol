@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 #include <functional>
 
 using namespace sf;
@@ -45,7 +45,7 @@ public:
 	}
 	/*
 	void drawTo(sf::RenderWindow& window) {
-		window.draw(button	);
+		//window.draw(button	);
 	}
 	*/
 };
