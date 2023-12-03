@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="Prekol.h" />
+    <ClInclude Include="Units.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
