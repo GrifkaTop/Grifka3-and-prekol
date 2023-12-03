@@ -43,9 +43,10 @@ public:
 		borderColor = borColor;
 		borderSize = borSize;
 	}
-	
+	/*
 	void drawTo(sf::RenderWindow& window) {
 		window.draw(button	);
 	}
+	*/
 };
 
