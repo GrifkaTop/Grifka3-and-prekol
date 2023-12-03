@@ -7,8 +7,7 @@ using namespace sf;
 using namespace std;
 
 
-
 int main()
 {
-
+	Rect<int> t;
 }
