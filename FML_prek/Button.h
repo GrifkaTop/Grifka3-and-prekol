@@ -20,10 +20,8 @@ private:
 	Text text;
 	// рисуем текст или спрайт
 	bool drawingMode = 0;
-
 	//переменная хранящия функцию которую надо выполнить при клике
 	function<void(args...)> f;
-	RectangleShape but;
 	//размер, позиция
 	Vector2f size, position;
 	//цвет внутри конпки, цвет обводки
