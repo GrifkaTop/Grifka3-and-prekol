@@ -5,108 +5,109 @@
 using namespace sf;
 using namespace std;
 
-// прикол для f
+// a prank for f
 template <typename ...args>
 class Button
 {
 private:
-	// показывать кнопку
+	// show the button
 	bool showing = true;
-	// рисунок внутри кнопки если drawingMode == 0
+	// Sprite inside the button if drawingMode == 0
 	Sprite sprite;
-	// текст внутри кнопки если drawingMode == 1
+	// text inside the button if drawingMode == 1
 	Text text = "Hi, Grifka!";
-	// рисуем текст или спрайт
+	// draw text or sprite
 	bool drawingMode = 1;
-	//переменная хранящия функцию которую надо выполнить при клике
+	// a variable that stores the function to be performed when clicked
 	function<void(args...)> f;
-	//цвет внутри конпки если кнопка нажата, цвет обводки
+	// color inside the button if pressed
 	Color buttonColorClick = Color(Grey);
-	//цвет кнопки если не нажата
+	// color inside the button if not pressed
 	Color buttonColorUnClick = Color(White);
-	// цвет контура кнопки
+	// color of the button outline(border)
 	Color borderColor = Color(Black);
-	//размер обводки
+	// outline(border) size
 	float borderSize = 0;
-	// нажата ли
+	// is it pressed
 	bool clicked = false;
-	//прямоугольник хранит позицию и размер
+	// the rectangle stores the position and size
 	Rect<float> rect{};
 	
 public:
-	//изменение переменных
-	// показать кнопку
+	//changing variables
+    // show the button
 	void show() {
 		showing = true;
 	}
-	// спрятать кнопку
-	void hide() {
+	// hide the button
+	void hide()
+	{
 		showing = false;
 	}
-	// изменить спрайт кнопки
+	// change the button sprite
 	void setSprite(sf::Sprite sprite1) {
 		sprite = sprite1;
 		sf::FloatRect rect1 = sprite1.getLocalBounds();
 		float swidth = rect1.width;
 		float sheight = rect1.height;
-		sprite.setScale(rect.width / swidth, rect.height / sheight);
+		sprite.setScale(rect.width / swidth, rect.height / height);
 	}
-	//изменить текст
+	// change text
 	void setText(sf::Text text1) {
 		text = text1;
 	}
-	// изменить Режим рисования в кнопке
+	// change the drawing mode in the button
 	void setDrawingMode(DrawingMode mode) {
 		drawingMode = mode;
 	}
-	// изменить функцию при нажатии
+	// change the function when pressed
 	void setOnClick(std::function<void(args...)> function) {
 		f = function;
 	}
-	//изменить цвет при нажатии
+	// change the color when pressed
 	void setButtonColorClick(Color c) {
 		buttonColorClick = c;
 	}
-	//изменить цвет без нажатия
+	// change the color when UnPressed
 	void setButtonColorUnClick(Color c) {
 		buttonColorClick = c;
 	}
-	//изменить цвет Обводки кнопки
+	// change the color of Outline
 	void borderColor(Color c) {
 		borderColor = c;
 	}
-	//изменить размер обводки
+	// change the outline size
 	void borderSize(Color c) {
-		borderSize = c;
+		BorderSize = c;
 	}
-	// отпустить
+	// release
 	void release() {
 		clicked = false;
 	}
-	// изменить размер кнопки
+	// resize the button
 	void setSizeButton(Vector2f sz) {
 		Vector2f a = rect.getPosition;
 		rect = { a, sz };
 	}
-	// изменить позицию кнопки кнопки
+	// change the button position of the button
 	void setPositionButton(Vector2f pos) {
 		Vector2f a = rect.getSize;
 		rect = { pos, a };
 	}
-	// Изменить позицию и размер кнопки (Vector2f)
+	// Change the position and size of the button (Vector2f)
 	void setButton(Vector2f pos, Vector2f sz) {
-		rec = {pos, sz}
+		rec = { pos, sz }
 	}
-	// Изменить позицию и размер кнопки (4 параметра)
+	// Change the position and size of the button (4 parameters)
 	void setButton(float x, float y, float xs, float ys) {
 		rec = { x, y, xs, yz };
 	}
-	//Функции проверки принадлежности кнопки
-	// проверить находится ли точка в кнопке
+	// Functions for checking the button's ownership
+	// check whether the point is in the button
 	bool isin(sf::Vector2f pos) {
 		return rect.contains(sf::Vector2i(pos));
 	}
-	//нажата ли
+	//is pressed
 	bool click(sf::Vector2f pos) {
 		if (!showing) {
 			return false;
@@ -117,14 +118,14 @@ public:
 		}
 		return false;
 	}
-	//че то еще там...
-	// каждый тик делает кнопка
+	// what else is there...
+	// every tick is made by a button
 	void update(args... a) {
 		if (clicked) {
 			f(a...);
 		}
 	}
-	// рисовать кнопку
+	// draw a button
 	void draw(sf::RenderWindow& window) {
 		if (!showing) {
 			return;
@@ -150,3 +151,4 @@ public:
 	}
 };
 
+	
