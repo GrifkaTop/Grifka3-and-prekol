@@ -24,6 +24,7 @@
     <ProjectGuid>{b3d54451-e1e2-45e4-9f96-4954263baaad}</ProjectGuid>
     <RootNamespace>FMLprek</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Grifaki3</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -5,6 +5,8 @@
 using namespace sf;
 using namespace std;
 
+// прикол для f
+template <typename ...args>
 class Button
 {
 private:

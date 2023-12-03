@@ -12,5 +12,5 @@ ifstream t;
 
 int main()
 {
-	
+	Rect<int> t;
 }
