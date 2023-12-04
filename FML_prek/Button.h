@@ -35,7 +35,7 @@ private:
 	// color of the button outline(border)
 	Color borderColor = Color::Black;
 	// outline(border) size
-	float borderSize = 0;
+	float borderSize = 3;
 	// is it pressed
 	bool clicked = false;
 	// the rectangle stores the position and size
@@ -143,8 +143,8 @@ public:
 		r.setFillColor(col);
 		r.setPosition(rect.left, rect.top);
 		r.setSize(sf::Vector2f(rect.width, rect.height));
-		r.setOutlineThickness(3);
-		r.setOutlineColor(sf::Color(100, 100, 100));
+		r.setOutlineThickness(borderSize);
+		r.setOutlineColor(borderColor);
 		window.draw(r);
 
 		if (drawingMode == TEXT) {
