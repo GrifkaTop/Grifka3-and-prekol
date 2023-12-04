@@ -13,7 +13,40 @@ enum DrawingMode {
 	SHAPE
 };
 
+
+// figna dla zapominania funci
+template <typename T>
+class ButtonOnClickFunctionArgument {
+private:
+	T value;
+public:
+	ButtonOnClickFunctionArgument() = default;
+
+	explicit ButtonOnClickFunctionArgument(T a) : value(a) {}
+
+	T getValue() const {
+		return value;
+	}
+};
+
+template<typename T, typename R>
+class OnClickFunction {
+private:
+	function<T(vector<ButtonOnClickFunctionArgument<R>>)> func;
+public:
+	OnClickFunction() = default;
+
+	explicit OnClickFunction(function<T(vector<ButtonOnClickFunctionArgument<R>>)> f) {
+		func = f;
+	}
+
+	T operator()(vector<ButtonOnClickFunctionArgument<R>> args) const {
+		return func(args);
+	}
+};
+
 // a prank for f
+template <typename T, typename R>
 class Button
 {
 private:
@@ -27,7 +60,7 @@ private:
 	// draw text or sprite
 	DrawingMode drawingMode= TEXT;
 	// a variable that stores the function to be performed when clicked
-	void (*f)();
+	OnClickFunction<T, R> onClickFunction;
 	// color inside the button if pressed
 	Color buttonColorClick = Color(160, 160, 160);
 	// color inside the button if not pressed
@@ -43,7 +76,7 @@ private:
 	
 public:
 	// Constructor (Position, Size, Function(setOnClick))
-	Button(Vector2f position, Vector2f size, void (*s)()) {
+	explicit Button(Vector2f position, Vector2f size, OnClickFunction<T, R>& s) {
 		setSizeButton(size);
 		setPositionButton(position);
 		setOnClick(s);
@@ -75,8 +108,8 @@ public:
 		drawingMode = mode;
 	}
 	// change the function when pressed
-	void setOnClick(void (*s)()) {
-		f = s;
+	void setOnClick(OnClickFunction<T, R>& s) {
+		onClickFunction = s;
 	}
 	// change the color when pressed
 	void setButtonColorClick(Color c) {

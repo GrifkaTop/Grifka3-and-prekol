@@ -8,20 +8,22 @@ using namespace std;
 
 
 // Func for Button
-int a = 0;
 void stText(int a) {
 }
-void ff() {
 
+int ff(vector<ButtonOnClickFunctionArgument<string>> args) {
+    cout << 1;
+    return 0;
 }
-int main()
 
+int main()
 {
     // Test Button
     sf::Font font;
     font.loadFromFile("MinecraftFont.ttf");
-    Vector2f a = { 0, 0 }, b = { 200, 100 };
-    Button but(a, b, ff);
+    Vector2f a = { 100, 100 }, b = { 200, 100 };
+    OnClickFunction<int, string> func(ff);
+    Button <int, string> but(a, b, func);
     Text text;
     text.setFont(font);
     text.setString("HI, GRIFKA");
@@ -29,8 +31,33 @@ int main()
     but.setButtonColorUnClick(Color(100, 100, 100));
     but.setButtonColorClick(Color(200, 200, 200));
     but.setText(text);
-
-
+    int n = 1000;
+    sf::RenderWindow window(sf::VideoMode(n, n), "SFML works!");
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    sf::Vector2f point = { (float)event.mouseButton.x, (float)event.mouseButton.y };
+                    bool clicked = false;
+                    if (but.click(point)) {
+                        clicked = true;
+                    }
+                    if (clicked) {
+                        continue;
+                    }
+                }
+                window.clear();
+                but.draw(window);
+                window.display();
+                Sleep(20);
+            }
+        }
+    }
+    /*
 
     // Test IKRAN
     sf::ContextSettings settings;
@@ -91,8 +118,8 @@ int main()
         for (auto& i : rects) {
             window.draw(i);
         }
-        // draw Button
-        but.draw(window);
         window.display();
     }
+
+    */
 }
