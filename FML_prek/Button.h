@@ -14,7 +14,6 @@ enum DrawingMode {
 };
 
 // a prank for f
-template <typename ...args>
 class Button
 {
 private:
@@ -23,11 +22,12 @@ private:
 	// Sprite inside the button if drawingMode == SPRITE
 	Sprite sprite;
 	// text inside the button if drawingMode == TEXT
-	Text text = "Hi, Grifka!";
+	sf::Font font;
+	sf::Text text;
 	// draw text or sprite
 	DrawingMode drawingMode= TEXT;
 	// a variable that stores the function to be performed when clicked
-	function<void(args...)> f;
+	void (*f)();
 	// color inside the button if pressed
 	Color buttonColorClick = Color(160, 160, 160);
 	// color inside the button if not pressed
@@ -42,6 +42,12 @@ private:
 	Rect<float> rect{};
 	
 public:
+	// Constructor (Position, Size, Function(setOnClick))
+	Button(Vector2f position, Vector2f size, void (*s)()) {
+		setSizeButton(size);
+		setPositionButton(position);
+		setOnClick(s);
+	}
 	//changing variables
     // show the button
 	void show() {
@@ -69,8 +75,8 @@ public:
 		drawingMode = mode;
 	}
 	// change the function when pressed
-	void setOnClick(std::function<void(args...)> function) {
-		f = function;
+	void setOnClick(void (*s)()) {
+		f = s;
 	}
 	// change the color when pressed
 	void setButtonColorClick(Color c) {
@@ -85,7 +91,7 @@ public:
 		borderColor = c;
 	}
 	// change the outline size
-	void setBorderSize(Color c) {
+	void setBorderSize(float c) {
 		borderSize = c;
 	}
 	// release
@@ -94,12 +100,12 @@ public:
 	}
 	// resize the button
 	void setSizeButton(Vector2f sz) {
-		Vector2f a = rect.getPosition;
+		Vector2f a = rect.getPosition();
 		rect = { a, sz };
 	}
 	// change the button position of the button
 	void setPositionButton(Vector2f pos) {
-		Vector2f a = rect.getSize;
+		Vector2f a = rect.getSize();
 		rect = { pos, a };
 	}
 	// Change the position and size of the button (Vector2f)
@@ -113,14 +119,14 @@ public:
 	// Functions for checking the button's ownership
 	// check whether the point is in the button
 	bool isin(sf::Vector2f pos) {
-		return rect.contains(sf::Vector2i(pos));
+		return rect.contains(sf::Vector2f(pos));
 	}
 	//is pressed
 	bool click(sf::Vector2f pos) {
 		if (!showing) {
 			return false;
 		}
-		if (isin(sf::Vector2i(pos))) {
+		if (isin(sf::Vector2f(pos))) {
 			clicked = true;
 			return true;
 		}
@@ -128,11 +134,13 @@ public:
 	}
 	// what else is there...
 	// every tick is made by a button
-	void update(args... a) {
+	/*
+	void update() {
 		if (clicked) {
-			f(a...);
+			f();
 		}
 	}
+	*/
 	// draw a button
 	void draw(sf::RenderWindow& window) {
 		if (!showing) {

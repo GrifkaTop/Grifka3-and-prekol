@@ -7,8 +7,32 @@ using namespace sf;
 using namespace std;
 
 
+// Func for Button
+int a = 0;
+void stText(int a) {
+}
+void ff() {
+
+}
 int main()
+
 {
+    // Test Button
+    sf::Font font;
+    font.loadFromFile("MinecraftFont.ttf");
+    Vector2f a = { 0, 0 }, b = { 200, 100 };
+    Button but(a, b, ff);
+    Text text;
+    text.setFont(font);
+    text.setString("HI, GRIFKA");
+    text.setFillColor(sf::Color::Red);
+    but.setButtonColorUnClick(Color(100, 100, 100));
+    but.setButtonColorClick(Color(200, 200, 200));
+    but.setText(text);
+
+
+
+    // Test IKRAN
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "GRIFACKS 3", sf::Style::Fullscreen, settings);
@@ -21,7 +45,7 @@ int main()
             sf::RectangleShape rect;
             rect.setPosition(5 * x, 5 * y);
             float br = (x + 100) / 200.f;
-            rect.setFillColor(sf::Color::White);
+            rect.setFillColor(Color(x+100,y+100, x+100));
             rect.setSize(sf::Vector2f(5, 5));
             rects.push_back(rect);
         }
@@ -67,6 +91,8 @@ int main()
         for (auto& i : rects) {
             window.draw(i);
         }
+        // draw Button
+        but.draw(window);
         window.display();
     }
 }
